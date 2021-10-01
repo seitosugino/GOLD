@@ -1,0 +1,47 @@
+.container
+  .row
+    .col-sm-12.col-md-10.col-lg-8.px-5.px-sm-0.mx-auto.text-center
+      h2
+        | 商品一覧
+      .text-right
+        = link_to new_admins_item_path, class: "admin-item-link" do
+          i.fa.fa-plus.fa-lg.mb-2
+      table.table.table-hover
+        thead
+          tr
+            th
+              | ID
+            th
+              | 商品名
+            th
+              | 税抜価格
+            th
+              | ジャンル
+            th
+              | 閲覧数
+            th
+              | ステータス
+        tbody
+          - @items.each do |item|
+            tr
+              td
+                = item.id
+              td.align-middle.text-left
+                = link_to admins_item_path(item), class:"link-style" do
+                  = attachment_image_tag item, :image, size:"60x40"
+                  = "　"+item.name
+              td.align-middle
+                = item.price.to_s(:delimited)
+              td.align-middle
+                = item.genre.name
+              td.align-middle.view-count
+                = item.counts.count
+              td.align-middle
+                - if item.is_active == true
+                  p.is-active-true
+                    | 販売中
+                - elsif item.is_active == false
+                  p.is-active-false
+                    | 販売停止中
+      .mb-5
+        = paginate @items

@@ -1,0 +1,8 @@
+- genres .each do |genres|
+  tr
+    td
+      = genres.id
+    td
+      = genres.name
+    td
+      = link_to '編集する', edit_admins_genre_path(genres), class: "btn btn-outline-success"

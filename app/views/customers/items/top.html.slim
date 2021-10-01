@@ -1,0 +1,40 @@
+.main_imgBox
+  .main_img[style="background-image: url(assets/top/cheesecake.jpg)"]
+  .main_img[style="background-image: url(assets/top/mountain.jpg)"]
+  .main_img[style="background-image: url(assets/top/strawberrycake.jpg)"]
+  .main_img[style="background-image: url(assets/top/cupcake.jpeg)"]
+  .main_img[style="background-image: url(assets/top/loghouse.jpeg)"]
+  .main_img[style="background-image: url(assets/top/meringue.jpeg)"]
+.container
+  .row
+    .col-md-12.mx-auto
+      .text-center.mt-5.mb-4
+        |  ようこそ、ながのCAKEへ！
+        br
+        br
+        |  このサイトは、ケーキ販売のECサイトになります。
+        br
+        br
+        |  会員でない方も商品の閲覧はできますが、
+        br
+        br
+        |  購入には会員登録が必要になります。 
+      h3
+        | 新着商品
+      .item-index.d-flex.flex-wrap.mt-3
+        - @items.last(4).reverse_each do |item|
+          .mx-auto.text-center
+            = link_to customers_item_path(item), class: "link-style" do
+              .item-img-box
+                = attachment_image_tag item, :image, size:"250x190"
+              .item-index-name.mt-2
+                = item.name
+            |  ￥
+            = item.taxin_price.to_s(:delimited)
+      h3.mt-5
+        | 人気ランキング
+      .item-index.d-flex.flex-wrap.mt-3
+        = render 'rank', all_ranks: @all_ranks
+      br
+      p.text-right
+        = link_to "全ての商品を見る", customers_items_path, class: "link-style2"

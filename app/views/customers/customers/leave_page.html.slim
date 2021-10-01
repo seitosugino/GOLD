@@ -1,0 +1,15 @@
+.leave-area
+  h2
+    | 本当に退会しますか？
+  .leave-comment
+    p
+      | 退会すると会員情報や
+      br
+      |  これまでの購入履歴が閲覧できなくなります。
+      br
+      |  退会する場合は、「退会する」をクリックしてください。
+  .leave-btn
+    .mypage
+      = link_to 'マイページへ戻る', customers_customer_path(@customer), class: "btn btn-secondary"
+    .leave
+      = link_to "退会する", leave_customers_customer_path(@customer),method: :patch, class: "btn btn-secondary"

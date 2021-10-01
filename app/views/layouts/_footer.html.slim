@@ -1,0 +1,16 @@
+footer
+  .container
+    .row
+      .col-12.my-3
+        .d-flex.justify-content-between.bd-highlight
+          .text-center.link3
+            = link_to "企業情報", about_path, class:"link3"
+            |  ｜ 
+            = link_to "お問い合わせ", new_infomation_path, class:"link3"
+          .text-center.link3
+            |  © 2021 ながのCAKE 
+          .text-center
+            - if admin_signed_in?
+              = link_to '管理者の方はこちら', admins_orders_path, class: 'link3 ml-5'
+            - else
+              = link_to '管理者の方はこちら', new_admin_session_path, class: 'link3 ml-5'

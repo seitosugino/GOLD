@@ -1,0 +1,28 @@
+.container.px-5.px-sm-0
+  .row
+    .col-sm-12.col-md-8.col-lg-5.px-5.px-sm-0.mx-auto.item-rate-show
+      .mx-3
+        = attachment_image_tag @item, :image, size:"500x380"
+      .item-detail.mx-3
+        .item-show-name
+          = @item.name
+        br
+        div
+          = @item.introduction
+        br
+        div
+          | ￥
+          = @item.taxin_price.to_s(:delimited)
+          | （税込）
+        br
+        .mt-5
+          = form_with model: @rate, url: customers_rates_path, local:true do |f|
+            #star.form-group
+              = f.hidden_field :item_id, :value => @item.id
+              = f.hidden_field :customer_id, :value => @current_user
+              = f.label :star
+              = f.hidden_field :star, id: :review_star, class:'form-control'
+            script
+              |  $('#star').raty({ size : 36, starOff: '<ruby code="= asset_path('star-off.png')"></ruby>', starOn : '<ruby code="= asset_path('star-on.png')"></ruby>', starHalf: '<ruby code="= asset_path('star-half.png')"></ruby>', scoreName: 'rate[star]', half: true, }); 
+            .form-group
+              = f.submit class: 'btn btn-success'

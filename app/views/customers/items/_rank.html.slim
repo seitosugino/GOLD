@@ -1,0 +1,13 @@
+- all_ranks.each.with_index(1) do |item, i|
+  .mx-auto.text-center
+    h5
+      | 第
+      = i
+      | 位
+    = link_to customers_item_path(item), class: "link-style" do
+      .item-img-box
+        = attachment_image_tag item, :image, size:"250x190"
+      .item-index-name.mt-2
+        = item.name
+    |  ￥
+    = item.taxin_price.to_s(:delimited)

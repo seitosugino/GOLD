@@ -1,0 +1,66 @@
+.frame
+  .line-image
+    = image_tag "order-line2.jpg" ,class: "order-line"
+  h3
+    | お客様情報入力
+  .main-contents
+    = form_with(model: @order,url: log_customers_customer_orders_path(@customer.id),method: :post, local: true) do |f|
+      .paymethod-form
+        h5
+          | お支払方法
+        .payment_method-btn
+          ul
+            li.radio-btn
+              label
+                = f.radio_button :payment_method, :クレジットカード, checked: true
+                | クレジットカード
+            li.radio-btn
+              label
+                = f.radio_button :payment_method, :銀行振込
+                | 銀行振込
+      .address-form
+        h5
+          | お届け先
+        .address-btn
+          ul
+            li.radio-btn
+              = f.radio_button :address_select,0 ,checked: true
+              = f.label :address_select, "ご自身の住所", value: 0
+              .my-address
+                div
+                  |  〒
+                  = @customer.postal_code
+                  = @customer.address
+                div
+                  = @customer.full_name
+            li.radio-btn
+              .text-center[style="color: red;"]
+                = flash[:alert1]
+              = f.radio_button :address_select,1
+              = f.label :address_select,"登録済み住所から選択", value: 1
+              = f.collection_select :oter_address, @addresses, :id, :full_address, include_blank: "選択して下さい"
+            li
+              .radio-btn
+                = f.radio_button :address_select,2
+                = f.label :address_select,"新しいお届け先", value: 2
+              .text-center[style="color: red;"]
+                = flash[:alert2]
+              table.another-address
+                tr
+                  th
+                    = f.label "郵便番号（ハイフンなし）"
+                  td
+                    = f.text_field :postal_code
+                tr
+                  th
+                    = f.label "住所"
+                  td.another-address-address
+                    = f.text_field :address
+                tr
+                  th
+                    = f.label "宛名"
+                  td
+                    = f.text_field :name
+      .check-btn-area
+        .check-btn
+          = f.submit "確認画面へ進む", class: "btn btn-primary"

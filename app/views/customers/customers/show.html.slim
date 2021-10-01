@@ -1,0 +1,57 @@
+h1.profile-title
+  | my page
+p.text-center
+  = flash[:addressnotice]
+.profile-body
+  header.leftNavigation
+    .leftNavigation-list
+      .profile-content
+        = link_to customers_customer_orders_path(@customer),class: "a-tag" do
+          .order-list
+            i.fas.fa-shopping-cart.cart-icon
+            | 注文履歴
+      .profile-content
+        = link_to edit_customers_customer_path(@customer.id),class: "a-tag" do
+          .order-list
+            i.fas.fa-user-edit
+            | 会員情報編集
+      .profile-content
+        = link_to customers_customer_addresses_path(@customer),class: "a-tag" do
+          .order-list
+            i.fas.fa-truck.tarck-i
+            | 登録配達先
+  .private-content
+    table
+      tr
+        th
+          | 氏名
+        td
+          = @customer.last_name
+          = @customer.first_name
+      tr
+        th
+          | カナ
+        td
+          = @customer.last_name_kana
+          = @customer.first_name_kana
+      tr
+        th
+          | メールアドレス
+        td
+          = @customer.email
+      tr
+        th
+          | 郵便番号
+        td
+          | 〒
+          = @customer.postal_code
+      tr
+        th
+          | 住所
+        td
+          = @customer.address
+      tr
+        th
+          | 電話番号
+        td
+          = @customer.telephone_number

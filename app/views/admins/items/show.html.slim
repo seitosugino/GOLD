@@ -1,0 +1,47 @@
+.container
+  .row
+    .col-sm-12.col-md-9.col-lg-6.px-5.px-sm-0.mx-auto
+      h2.mb-3
+        | 商品詳細
+      div
+        .text-center
+          = attachment_image_tag @item, :image, size:"300x200"
+        .admin-item-show-detail
+          table.table.admin-item-show-table
+            tbody
+              tr
+                th
+                  | 商品名
+                td
+                  = @item.name
+              tr
+                th
+                  | 商品説明
+                td
+                  = @item.introduction
+              tr
+                th
+                  | ジャンル
+                td
+                  = @item.genre.name
+              tr
+                th
+                  | 税込価格(税抜価格)
+                td
+                  = @item.taxin_price.to_s(:delimited)
+                  |  (
+                  = @item.price.to_s(:delimited)
+                  | ) 円
+              tr
+                th
+                  | 販売ステータス
+                td
+                  - if @item.is_active == true
+                    p.is-active-true
+                      | 販売中
+                  - elsif @item.is_active == false
+                    p.is-active-false
+                      | 販売停止中
+          .text-center
+            = link_to "編集する", edit_admins_item_path(@item), class: "btn btn-success"
+            = link_to "一覧に戻る", admins_items_path, class: "btn btn-primary"

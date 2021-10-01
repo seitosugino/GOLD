@@ -1,0 +1,18 @@
+.container
+  .row
+    .col-sm-12.col-md-10.col-lg-9.px-5.px-sm-0.mx-auto
+      h3.text-center
+        | お問い合わせ一覧
+      .index-index
+        table.table
+          tr
+            th[style="width:15%"]
+            th[style="width:25%"]
+              | 問い合わせ日時
+            th[style="width:15%"]
+              | 名前
+            th[style="width:30%"]
+              | 問い合わせカテゴリー
+            th[style="width:15%"]
+          = render "infomations/index",infomations: @infomations
+          = paginate @infomations

@@ -1,0 +1,9 @@
+.text-center[style="color: red;"]
+  - if obj.errors.any?
+    b
+      = obj.errors.count
+      | 件のエラーが発生しました
+    - obj.errors.full_messages.each do |message|
+      ul.m-0
+        li
+          = message

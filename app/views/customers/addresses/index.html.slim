@@ -1,0 +1,47 @@
+.address-contents
+  h3
+    | 配送先一覧/登録
+  .main-area
+    .left-area
+      - if @addresses.count == 0
+        table
+          tr
+            td.text-center
+              | 登録されている配送先はありません
+      - else
+        - @addresses.each do |address|
+          table
+            tr
+              td
+                | 〒
+                = address.postal_code
+            tr
+              td
+                = address.address
+            tr
+              td
+                = address.name
+          td
+            = link_to "編集", edit_customers_customer_address_path(current_customer.id,address.id), class: "btn btn-secondary btn-sm"
+    = link_to "削除", customers_customer_address_path(current_customer.id,address.id),method: :delete, class: "btn btn-secondary btn-sm"
+  .right-area
+    = form_with model: @address,url: customers_customer_addresses_path(current_customer.id),method: :post,local: true do |f|
+      table
+        tr
+          td
+            p.mb-0
+              | 郵便番号(ハイフンなし)
+            = f.text_field :postal_code,class: "bg-white"
+        tr
+          td
+            p.mb-0
+              | 住所
+            = f.text_field :address,class: "bg-white right-form"
+        tr
+          td
+            p.mb-0
+              | 宛名
+            = f.text_field :name,class: "bg-white"
+        tr
+          td
+            = f.submit "新規登録" ,class: "btn btn-secondary submit"

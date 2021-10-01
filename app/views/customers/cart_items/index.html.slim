@@ -1,0 +1,38 @@
+#no_cart.container
+  - if @cart_items.present?
+    .line-image
+      = image_tag "order-line1.jpg" ,class: "order-line"
+  .row
+    .col-sm-12.col-md-10.col-lg-8.px-5.px-sm-0.mx-auto.text-center
+      h3
+        | ショッピングカート
+      - if @cart_items.present?
+        .cart-destroy-btn
+          = link_to "カートを空にする", cart_destroy_customers_cart_items_path(@cart_items), method: :delete, class:"cart-destroy-btn", data: {confirm:"カートの中身を全て削除してよろしいですか？"}
+        table.table[style="table-layout:fixed"]
+          thead
+            tr
+              th[style="width:35%"]
+                | 商品名
+              th[style="width:15%"]
+                | 単価(税込)
+              th[style="width:25%"]
+                | 数量
+              th[style="width:15%"]
+                | 小計
+              th[style="width:10%"]
+          tbody
+            - @cart_items.each do |cart_item|
+              |  <tr id="cart_
+              = cart_item.id
+              | "> 
+              = render 'cart', cart_item: cart_item
+        .text-center
+          p#total_price
+            | 合計 
+            = @total.round.to_s(:delimited)
+            | 円
+          = link_to "買い物を続ける", root_path, class: "btn btn-primary"
+          = link_to "情報入力に進む", new_customers_customer_order_path(current_customer), class: "btn btn-success"
+      - else
+        = render 'no_cart'

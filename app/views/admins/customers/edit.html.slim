@@ -1,0 +1,56 @@
+.container
+  .row
+    .col-sm-12.col-md-10.col-lg-7.px-5.px-sm-0.mx-auto
+      h2
+        | 会員情報編集
+      = form_with model:@customer, url: admins_customer_path(@customer), local: true do |f|
+        table
+          tr
+            td
+              = f.label :last_name, "名前"
+            td
+              = f.text_field :last_name
+            td
+              = f.text_field :first_name
+          tr
+            td
+              = f.label :last_name_kana, "フリガナ"
+            td
+              = f.text_field :last_name_kana
+            td
+              = f.text_field :first_name_kana
+          tr
+            td
+              = f.label :email, "メールアドレス"
+            td
+              = f.email_field :email
+          tr
+            td
+              = f.label :postal_code, "郵便番号（ハイフンなし）"
+            td
+              = f.text_field :postal_code
+          tr
+            td
+              = f.label :address, "住所"
+            td
+              = f.text_field :address
+          tr
+            td
+              = f.label :telephone_number, "電話番号（ハイフンなし）"
+            td
+              = f.text_field :telephone_number
+          tr
+            td
+              | 会員ステータス
+            td
+              label.btn.btn-outline-light[style="display: inline-block;"]
+                = f.radio_button :is_deleted, :false
+                = f.label :is_deleted, "有効", {value: :false, style: "display: inline-block;"}
+            td
+              label.btn.btn-outline-light[style="display: inline-block;"]
+                = f.radio_button :is_deleted, :true
+                = f.label :is_deleted, "無効", {value: :true, style: "display: inline-block;"}
+          tr
+            td
+            td
+              = f.submit "更新する",class: "btn btn-success"

@@ -1,0 +1,61 @@
+header
+  nav.navbar.navbar-expand-lg.navbar-dark
+    .container
+      = image_tag 'kawamura.jpg' ,class: "kawamura"
+      a.navbar-title[href="/"]
+        | ながのCAKE
+      - if admin_signed_in?
+        .navbar-collapse
+          = render 'admins/admin_sidebar'
+      - elsif customer_signed_in? && current_customer.is_deleted == false
+        button.navbar-toggler[type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"]
+          span.navbar-toggler-icon
+        #navbarNavDropdown.collapse.navbar-collapse
+          ul.navbar-nav.ml-auto
+            li
+              = link_to customers_customer_path(current_customer.id),class: 'nav-link text-light' do
+                i.fas.fa-home
+                |  my page 
+            li
+              = link_to customers_items_path,class: 'nav-link text-light' do
+                i.fas.fa-cookie-bite
+                |  item 
+            li
+              = link_to customers_cart_items_path,class: 'nav-link text-light' do
+                i.fas.fa-shopping-cart
+                |  cart 
+            li
+              = link_to destroy_customer_session_path, method: :delete,class: 'nav-link text-light' do
+                i.fas.fa-sign-out-alt
+                |  logout 
+            li
+              = link_to new_infomation_path,class: 'nav-link text-light' do
+                i.fas.fa-question-circle
+                |  info 
+      - else
+        button.navbar-toggler[type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"]
+          span.navbar-toggler-icon
+        #navbarNavDropdown.collapse.navbar-collapse
+          ul.navbar-nav.ml-auto
+            li
+              = link_to about_path,class: 'nav-link text-light' do
+                i.fas.fa-store-alt
+                |  about 
+            li
+              = link_to customers_items_path,class: 'nav-link text-light' do
+                i.fas.fa-cookie-bite
+                |  item 
+            li
+              = link_to new_customer_registration_path,class: 'nav-link text-light' do
+                i.fas.fa-user-plus
+                |  sign up 
+            li
+              = link_to new_customer_session_path ,class: 'nav-link text-light' do
+                i.fas.fa-sign-in-alt
+                |  login 
+            li
+              = link_to new_infomation_path,class: 'nav-link text-light' do
+                i.fas.fa-question-circle
+                |  info 
+      = render 'layouts/search'
+      = render 'layouts/guest'

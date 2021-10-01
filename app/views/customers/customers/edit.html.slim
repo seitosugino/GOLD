@@ -1,0 +1,78 @@
+.container.contents.w-50
+  .py-5.text-center
+    - if @customer.errors.any?
+
+    h3
+      | 会員情報編集
+  = form_with model: @customer,url: customers_customer_path(@customer), local: true do |f|
+    .row
+      .col
+        =f.label :last_name, "姓"
+        = f.text_field :last_name, autofocus: true, class: "form-control"
+        - if @customer.errors.include?(:last_name)
+          p[style="color: red;"]
+            = @customer.errors.full_messages_for(:last_name).first
+      .col-md-6.mb-3
+        =f.label :last_name, "名"
+        = f.text_field :first_name, autofocus: true, class: "form-control"
+        - if @customer.errors.include?(:first_name)
+          p[style="color: red;"]
+            = @customer.errors.full_messages_for(:first_name).first
+    .row
+      .col
+        =f.label :last_name, "セイ"
+        = f.text_field :last_name_kana, autofocus: true, class: "form-control"
+        - if @customer.errors.include?(:last_name_kana)
+          p[style="color: red;"]
+            = @customer.errors.full_messages_for(:last_name_kana).first
+      .col-md-6.mb-3
+        =f.label :last_name, "メイ"
+        = f.text_field :first_name_kana, autofocus: true, class: "form-control"
+        - if @customer.errors.include?(:first_name_kana)
+          p[style="color: red;"]
+            = @customer.errors.full_messages_for(:last_name_kana).first
+    .mb-3
+      = f.label :email, "メールアドレス"
+      = f.text_field :email, autofocus: true, class: "form-control"
+      - if @customer.errors.include?(:email)
+        p[style="color: red;"]
+          = @customer.errors.full_messages_for(:email).first
+    .row
+      .col.mt-2
+        = f.label :postal_code, "郵便番号(ハイフンなし)"
+      .col-md-6.mb-3
+
+    .row.w-50
+      .col-md-6
+        = f.text_field :postal_code, autofocus: true, class: "form-control"
+      .col-md-9.mb-7
+        - if @customer.errors.include?(:postal_code)
+          p[style="color: red;"]
+            = @customer.errors.full_messages_for(:postal_code).first
+    .mb-3.mt-2
+      = f.label :addres, "住所"
+      = f.text_field :address, autofocus: true, class: "form-control"
+      - if @customer.errors.include?(:address)
+        p[style="color: red;"]
+          = @customer.errors.full_messages_for(:address).first
+    .row
+      .col.mt-2
+        = f.label :telephone_number, "電話番号(ハイフンなし)"
+      .col-md-6.mb-3
+
+    .row.w-75
+      .col
+        = f.text_field :telephone_number, class: "form-control"
+        - if @customer.errors.include?(:telephone_number)
+          p[style="color: red;"]
+            = @customer.errors.full_messages_for(:telephone_number).first
+      .col-md-6.mb-3
+
+    .row.mx-auto.signup-btn-area[style="width: 200px;"]
+      = f.submit "更新する", class: "btn btn-lg btn-secondary signup-btn"
+  .row.footer-area
+    .col.text-center
+      p
+        | 退会される方は
+        = link_to "こちら",leave_page_customers_customer_path
+        | から退会手続きをお願いします。

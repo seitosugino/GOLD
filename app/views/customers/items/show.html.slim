@@ -1,0 +1,47 @@
+.container.px-5.px-sm-0
+  .row
+    .col-md-12.mx-auto.mb-5.text-center
+      - @genres.each do |genre|
+        = link_to genre.name, admins_genre_path(genre), class: "link-style2 mx-3"
+  .row
+    .col-sm-12.col-md-8.col-lg-5.px-5.px-sm-0.mx-auto.item-show
+      .mx-3
+        = attachment_image_tag @item, :image, size:"500x380"
+      .item-detail.mx-3
+        .item-show-name
+          = @item.name
+        br
+        div
+          = @item.introduction
+        br
+        div
+          | ￥
+          = @item.taxin_price.to_s(:delimited)
+          | （税込）
+        br
+        div
+          = link_to "レビュー", customers_rate_path
+          .d-flex
+            |  <div id="rate_
+            = @item.id
+            | ">
+          script
+            |  $('#rate_<ruby code="= @item.id"></ruby>').raty({ size: 20, starOff: '<ruby code="= asset_path('star-off.png')"></ruby>', starOn : '<ruby code="= asset_path('star-on.png')"></ruby>', starHalf: '<ruby code="= asset_path('star-half.png')"></ruby>', half: true, readOnly: true, score: <ruby code="= @item.avg_score"></ruby>, }); 
+          .mx-2
+            = @item.avg_score
+      .mt-4
+        - if @item.is_active == true
+          = form_with model: @cart_item, url: customers_cart_items_path do |f|
+            = f.hidden_field :item_id, value: @item.id
+            div[style="color: red;"]
+              = flash[:order_item]
+            = f.select :amount, options_for_select((1..10).to_a), include_blank: "個数選択"
+            br
+            = f.submit "カートに入れる", class: "btn btn-success"
+        - else
+          p.sold-out-show
+            | sold out
+        br
+        br
+        br
+        = link_to "一覧に戻る", customers_items_path, class:"return-index"

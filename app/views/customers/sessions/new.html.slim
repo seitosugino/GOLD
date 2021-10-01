@@ -1,0 +1,20 @@
+.form-wrapper.sign-in-area
+  h1
+    | Sign In
+  p.text-center[style="color: red;"]
+    = flash[:error]
+  = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+    .form-item
+      = f.email_field :email, :placeholder => "メールアドレス"
+    .form-item
+      = f.password_field :password, :placeholder => "パスワード"
+    .button-panel.login
+      = f.submit "ログイン", class: "btn btn-secondary btn-log"
+    |  　
+  .form-footer
+.text-center
+  h4
+    | 会員登録がお済みでない方
+  p
+    = link_to "こちら",new_customer_registration_path
+    |  から新規登録してください。

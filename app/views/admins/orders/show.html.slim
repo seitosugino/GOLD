@@ -1,0 +1,96 @@
+.container
+  .row
+    .col-sm-12.col-md-10.col-lg-8.px-5.px-sm-0.mx-auto
+      h2
+        | 注文履歴
+      .mx-auto[style="width:340px"]
+        table.table.table-borderless.order-table
+          tbody
+            tr
+              th.text-right
+                | 購入者
+              |  　
+              td
+                = link_to "#{@order.customer.last_name} #{@order.customer.first_name}", admins_customer_path(@order.customer), class:"link-style"
+            tr
+              th.text-right
+                | 注文日
+              td
+                = @order.created_at.strftime('%Y/%m/%d')
+            tr
+              th.text-right
+                | 配送先
+              td
+                = @order.address
+                = @order.name
+            tr
+              th.text-right
+                | 支払い方法
+              td
+                = @order.payment_method
+            tr
+              th.text-right
+                | 注文
+              td
+                = form_with model:@order, url: admins_order_path(@order), class: "p-0", local: true  do |f|
+                  .d-flex
+                    p
+                      = f.select :status,  Order.statuses.keys
+                    - @order_items.each do |order_item|
+                      = f.fields_for "order_items[]", order_item do |af|
+                        = af.hidden_field :making_status, :value => '製作待ち'
+                    = f.submit '更新', class: "btn btn-success btn-sm col-6 ml-3 mt-0"
+      .mx-auto
+        table.table.order-table[border="1"]
+          thead
+            tr
+              th.align-middle
+                | 商品名
+              th.align-middle
+                | 単価（税込）
+              th.align-middle
+                | 数量
+              th.align-middle
+                | 小計
+              th.align-middle
+                | 製作ステータス
+          tbody
+            - @order_items.each do |order_items|
+              tr
+                td.align-middle
+                  = order_items.item.name
+                td.align-middle
+                  = order_items.price.to_s(:delimited)
+                td.align-middle
+                  = order_items.amount
+                td.align-middle
+                  = (order_items.price*order_items.amount).to_s(:delimited)
+                td.align-middle
+                  = form_with model:order_items, local: true  do |f|
+                    .d-flex
+                      .pt-2
+                        = f.select :making_status, OrderItem.making_statuses.keys
+                      = f.fields_for "orders[]", @order do |af|
+                        - if @order.status == "製作中"
+                          = af.hidden_field :status, :value => "発送準備中"
+                        - else
+                          = af.hidden_field :status, :value => "製作中"
+                      = f.submit '更新', class: "btn btn-success btn-sm col-6 ml-3"
+      .d-flex.justify-content-center.mt-4
+        .mx-.align-self-center
+          |  商品合計 
+          - @sum = 0
+          - @order_items.each do |order_items|
+            - order_items.price*order_items.amount
+            - @sum += order_items.price*order_items.amount
+          = @sum.to_s(:delimited)
+          | 円 
+        .mx-3.align-self-center
+          | 送料
+          = @order.shipping_cost
+          | 円
+        .mx-2
+          h4
+            | 合計金額
+            = (@sum += @order.shipping_cost).to_s(:delimited)
+            | 円

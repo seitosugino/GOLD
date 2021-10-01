@@ -1,0 +1,119 @@
+.container
+  .row
+    .col-sm-12.col-md-10.col-lg-8.px-5.px-sm-0.mx-auto
+      h2
+        | 会員一覧
+      .mt-3.mb-1.text-right
+        = link_to "登録が新しい順", admins_customers_path(sort: 'created_at DESC'), class: "btn btn-outline-secondary btn-sm"
+        |  | 
+        = link_to "登録が古い順", admins_customers_path(sort: 'created_at ASC'), class: "btn btn-outline-secondary btn-sm"
+      table.table
+        thead
+          tr
+            th
+              | 名前
+            th
+              | ステータス
+            th
+              | 購入回数
+            th
+        tbody
+          - @customers.each do |customers|
+            tr
+              td
+                = customers.last_name
+                = customers.first_name
+              td
+                - if customers.is_deleted == false
+                  |  有効 
+                - else
+                  |  退会 
+              td
+                = customers.orders.count
+              td
+                = link_to '詳細', admins_customer_path(customers), class: "btn btn-outline-success"
+      = paginate @customers
+      h2.mt-5.mb-3
+        | 登録数の前日比・前週比
+      .table_width
+        table.table.table-bordered
+          thead
+            tr
+              th
+                | 今日の登録数
+              th
+                | 前日の登録数
+              th
+                | 前日比
+          tbody
+            tr
+              td
+                =  @customers.created_today.count
+              td
+                = @customers.created_yesterday.count
+              td
+                - if @customers.created_yesterday.count == 0
+                  |  前日の投稿が0のため計算できません 
+                - else
+                  - @the_day_before =   @customers.created_today.count / @customers.created_yesterday.count.to_f
+                  = (@the_day_before * 100).round
+                  | % 
+      .table_width
+        table.table.table-bordered
+          thead
+            tr
+              th
+                | 今週の登録数
+              th
+                | 前週の登録数
+              th
+                | 前週比
+          tbody
+            tr
+              td
+                = @customers.created_this_week.count
+              td
+                = @customers.created_last_week.count
+              td
+                - if @customers.created_last_week.count == 0
+                  |  前週の登録が0のため計算できません 
+                - else
+                  - @the_week_before = @customers.created_this_week.count / @customers.created_last_week.count.to_f
+                  = (@the_week_before * 100).round
+                  | % 
+      = line_chart @data
+      h2.mt-5.mb-3
+        | 7日間分の登録者
+      table.table.table-bordered.mb-5
+        thead
+          tr
+            th
+              | ６日前
+            th
+              | ５日前
+            th
+              | ４日前
+            th
+              | ３日前
+            th
+              | ２日前
+            th
+              | １日前
+            th
+              | 今日
+        tbody
+          tr
+            td
+              = @customers.created_6day_ago.count
+            td
+              = @customers.created_5day_ago.count
+            td
+              = @customers.created_4day_ago.count
+            td
+              = @customers.created_3day_ago.count
+            td
+              = @customers.created_2day_ago.count
+            td
+              = @customers.created_yesterday.count
+            td
+              = @customers.created_today.count

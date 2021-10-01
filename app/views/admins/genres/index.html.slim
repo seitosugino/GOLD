@@ -1,0 +1,21 @@
+.container
+  .row
+    .col-sm-12.col-md-8.col-lg-5.px-5.px-sm-0.mx-auto
+      h2
+        | ジャンル一覧・追加
+      br
+      = form_with model:@genre, url: admins_genres_path,remoto:true do |f|
+        = f.label :ジャンル名
+        = f.text_field :name, class: 'form-control'
+        .d-grid.gap-2.col-4.mx-auto
+          = f.submit class: 'btn btn-success'
+      table.table
+        thead
+          tr
+            th[style="width:30%"]
+              | id
+            th[style="width:40%"]
+              | ジャンル
+            th[style="width:30%"]
+        tbody#genre
+          = render 'index', genres: @genres

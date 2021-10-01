@@ -1,0 +1,84 @@
+h3.order-show-title
+  | 注文履歴詳細
+.order-contents
+  .left-side
+    .order
+      h5.w-75
+        | 注文内容
+      table
+        tr
+          th[style="width:30%"]
+            | 商品名
+          th[style="width:20%"]
+            | 単価(税込)
+          th[style="width:20%"]
+            | 数量
+          th[style="width:15%"]
+            | 小計
+        - @order.order_items.each do |order|
+          tr
+            td
+              = order.item.name
+            td.text-center
+              = (order.item.taxin_price).to_s(:delimited)
+              | 円
+            td.text-center
+              = order.amount
+              | 個
+            td.text-center
+              = (order.item.taxin_price * order.amount).to_s(:delimited)
+              | 円
+  .right-side
+    .cost
+      h5
+        | 請求情報
+      table
+        tr
+          th
+            | 商品合計
+          td
+            = @total_price.to_s(:delimited)
+            | 円
+        tr
+          th
+            | 配送料
+          td
+            = (@order.shipping_cost).to_s(:delimited)
+            | 円
+        tr
+          th
+            | ご請求額
+          td
+            = @total_payment.to_s(:delimited)
+            | 円
+    .info
+      h5
+        | 注文情報
+      table
+        tr
+          th
+            | 注文日
+          td
+            = @order.created_at.strftime("%Y/%m/%d").to_s
+        tr
+          th
+            | 配送先
+          td
+            ul
+              li
+                | 〒
+                = @order.postal_code
+              li
+                = @order.address
+              li
+                = @order.name
+        tr
+          th
+            | 支払方法
+          td
+            = @order.payment_method_i18n
+        tr
+          th
+            | ステータス
+          td
+            = @order.status_i18n

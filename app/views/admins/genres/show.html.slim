@@ -1,0 +1,13 @@
+.container.px-5.px-sm-0
+  .row
+    .col-md-12.mx-auto.mb-5.text-center
+      - @genres.each do |genre|
+        = link_to genre.name, admins_genre_path(genre), class: "link-style2 mx-3"
+      h3.mt-3
+        = @genre.name
+        | 一覧（全 
+        = @amount
+        |  件）
+      .item-index.d-flex.flex-wrap.mt-3.mx-auto
+        = render "customers/items/item_each", items: @items
+      = paginate @items

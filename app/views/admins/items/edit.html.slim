@@ -1,0 +1,10 @@
+.container
+  .row
+    .col-sm-12.col-md-8.col-lg-5.px-5.px-sm-0.mx-auto
+      h2
+        | 商品編集
+      = render 'layouts/errors', obj: @item
+      = form_with model: @item, url: admins_item_path, local:true do |f|
+        = render 'form', f: f
+        .form-group.row.justify-content-center.mt-3
+          = f.submit "変更を保存", class: 'btn btn-success'

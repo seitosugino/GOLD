@@ -1,0 +1,42 @@
+.show-infomation-content-flame
+  h3.text-center
+    | お問い合わせフォーム
+  .show-infomation-content
+    table
+      tr
+        th
+          | 問い合わせカテゴリー
+      tr
+        td
+          = @infomation.genre
+    table.show-content-table
+      tr
+        th
+          | 問い合わせ内容
+      tr
+      td
+        = @infomation.content
+    table
+      tr
+        th
+          | 名前
+        th
+          | 電話番号
+        th
+          | メールアドレス
+      tr
+        td
+          = @infomation.name
+        td
+          = @infomation.telephone_number
+        td
+          = @infomation.email
+    = form_with model: @infomation,url: infomation_path(@infomation), method: :patch ,local: true do |f|
+      - if @infomation.status == "未回答"
+        = f.hidden_field :status, value: "回答済み"
+        .show-infomation-submit
+          = f.submit "回答済みにする"
+      - else
+        = f.hidden_field :status, value: "未回答"
+        .show-infomation-submit
+          = f.submit "未回答に戻す"

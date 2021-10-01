@@ -1,0 +1,35 @@
+input#openSidebarMenu.openSidebarMenu[type="checkbox"]
+label.sidebarIconToggle[for="openSidebarMenu"]
+  .spinner.diagonal.part-1
+  .spinner.horizontal
+  .spinner.diagonal.part-2
+#sidebarMenu
+  ul.sidebarMenuInner
+    li
+      | Menu Item List
+      span
+        | shortcut
+    li
+      = link_to "Orders", "/admins/orders", rel: "noopener noreferrer"
+    li
+      = link_to "Items", "/admins/items", rel: "noopener noreferrer"
+    li
+      = link_to "Genres", "/admins/genres", rel: "noopener noreferrer"
+    li
+      = link_to "Customers", "/admins/customers", rel: "noopener noreferrer"
+    li
+      = link_to "Infomation", "/infomations", rel: "noopener noreferrer"
+    li
+      a[href="https://instagram.com" target="_blank"]
+        | Instagram
+    li
+      a[href="https://twitter.com" target="_blank"]
+        | Twitter
+    li
+      a[href="https://www.youtube.com" target="_blank"]
+        | YouTube
+    li
+      a[href="https://manager.linestep.net/account/login" target="_blank"]
+        | LINE
+    li
+      = link_to "Logout", "/admins/sign_out", rel: "noopener noreferrer"

@@ -1,0 +1,97 @@
+.line-image
+  = image_tag "order-line3.jpg" ,class: "order-line"
+h3.order-show-title
+  | 注文情報確認
+.order-contents
+  .left-side
+    .order
+      h5.w-75
+        | 注文内容
+      table
+        tr
+          th
+          th[style="width:35%"]
+            | 商品名
+          th[style="width:18%"]
+            | 単価(税込)
+          th[style="width:15%"]
+            | 数量
+          th[style="width:17%"]
+            | 小計
+        - @cart_items.each do |cart_item|
+          tr
+            td
+              = attachment_image_tag cart_item.item, :image, size: "50x50"
+            td
+              = cart_item.item.name
+            td.text-center
+              = cart_item.item.taxin_price.to_s(:delimited)
+              | 円
+            td.text-center
+              = cart_item.amount
+              | 個
+            td.text-center
+              = (cart_item.item.taxin_price * cart_item.amount).to_s(:delimited)
+              | 円
+  .right-side
+    .cost
+      h5
+        | 請求情報
+      table
+        tr
+          th
+            | 商品合計
+          td
+            = @total_price.to_s(:delimited)
+            | 円
+        tr
+          th
+            | 送料
+          td
+            = 800
+            | 円
+        tr
+          th
+            | 請求金額
+          td
+            = (@total_price + 800).to_s(:delimited)
+            | 円
+    .info
+      h5
+        | 注文情報
+      table.info-table
+        tr
+          th
+            | お届け先
+          td
+            ul
+              li
+                | 〒
+                = @order_postal_code
+              li
+                = @order_address
+              li
+                = @order_name
+        tr
+          th
+            | 支払方法
+          td
+            = @order.payment_method_i18n
+      = form_with model: @order,url: customers_customer_orders_path(@customer.id), method: :post, local: true do |f|
+        = f.hidden_field :customer_id, value: current_customer.id
+        = f.hidden_field :shipping_cost, value: 800
+        = f.hidden_field :total_payment, value: @total_payment
+        - if params[:order][:address_select] == "0"
+          = f.hidden_field :postal_code, value: @order_postal_code
+          = f.hidden_field :address,value: @order_address
+          = f.hidden_field :name,value: @order_name
+        - elsif params[:order][:address_select] == "1"
+          = f.hidden_field :postal_code, value: @order_postal_code
+          = f.hidden_field :address,value: @order_address
+          = f.hidden_field :name,value: @order_name
+        - elsif params[:order][:address_select] == "2"
+          = f.hidden_field :postal_code, value: @order_postal_code
+          = f.hidden_field :address,value: @order_address
+          = f.hidden_field :name,value: @order_name
+        .log-btn
+          =f.submit '注文を確定する',class: "btn btn-danger"

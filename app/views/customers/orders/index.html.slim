@@ -1,0 +1,53 @@
+.order-index
+  h3
+    | 注文履歴一覧
+  .index-box
+    table
+      tr
+        th[style="width:10%"]
+          | 注文日
+        th[style="width:20%"]
+          | 配送先
+        th[style="width:20%"]
+          | 注文商品
+        th[style="width:10%"]
+          | 支払金額
+        th[style="width:10%"]
+          | ステータス
+        th[style="width:10%"]
+          | 注文詳細
+      - if @orders.count == 0
+        tr.index-border
+          td
+          td
+          td.text-right
+            | 注文履歴はありません
+          td
+          td
+          td
+      - else
+        - @orders.each do |order|
+          tr.index-border
+            td.text-center
+              = order.created_at.strftime("%Y/%m/%d").to_s
+            td
+              ul
+                li
+                  | 〒
+                  = order.postal_code
+                li
+                  = order.address
+                li
+                  = order.name
+            td
+              ul
+                - order.order_items.each do |order|
+                  li
+                    = order.item.name
+            td.text-center
+              = (order.total_payment).to_s(:delimited)
+              | 円
+            td.text-center
+              = order.status_i18n
+            td.text-center
+              = link_to "表示する", customers_customer_order_path(current_customer.id,order.id), class: "btn btn-secondary"
